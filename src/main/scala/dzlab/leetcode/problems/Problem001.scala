@@ -12,14 +12,19 @@ package dzlab.leetcode.problems
  *   return [0, 1].
  */
 
-object Solution {
+object Problem001 {
 
   def twoSum(nums: Array[Int], target: Int): Array[Int] = {
-    (0 to nums.length).map(left =>
-      (left + 1 to nums.length).map(right =>
-        if (nums(left) + nums(right) == target) return Array(left, right)
-      )
-    )
+    (0 until nums.length).foldLeft(Map[Int, Int]()) {
+      (map: Map[Int, Int], right: Int) =>
+        {
+          val left_key = nums(right)
+          if (map.contains(left_key)) {
+            return Array(map(left_key), right)
+          }
+          map ++ Map((target - nums(right), right))
+        }
+    }
     Array()
   }
 }
