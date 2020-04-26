@@ -35,6 +35,21 @@ object Problem002 {
       node.next = next
       return node
     }
+
+    def apply(array: Array[Int]): ListNode = {
+      val node2index = array.map(x => new ListNode(x)).foldLeft(Map[Int, ListNode]()) {
+        (memory: Map[Int, ListNode], current: ListNode) =>
+          memory.isEmpty match {
+            case true =>
+            case false => {
+              memory(memory.size - 1).next = current
+            }
+          }
+          memory ++ Map((memory.size, current))
+      }
+      node2index(0)
+    }
+
     /**
      * @return a string representation of the input list
      */
@@ -50,6 +65,15 @@ object Problem002 {
         }
       }
     }
+
+    def toArray(node: ListNode): Array[Int] = {
+      Option(node) match {
+        case None => Array()
+        case Some(n) => {
+          Array(n.x) ++ toArray(n.next)
+        }
+      }
+    }
   }
 
   def addTwoNumbers(l1: ListNode, l2: ListNode): ListNode = {
@@ -58,7 +82,7 @@ object Problem002 {
         Option(other) match {
           case None => {
             if (remain == 0) {
-              if (n.x == 0) null else n
+              if (n.x == 0 && n.next == null) null else n
             } else {
               this.add(new ListNode(0), remain)
             }

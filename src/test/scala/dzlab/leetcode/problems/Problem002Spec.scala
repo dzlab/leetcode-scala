@@ -50,4 +50,12 @@ class Problem002Spec extends FlatSpec with Matchers {
     val result = Problem002.addTwoNumbers(l1, l2)
     ListNode.stringify(result) should equal("5->6->4")
   }
+
+  it should "sum case with multiple remains" in {
+    val l1 = ListNode(Array(3, 2, 0, 2, 6, 0, 8, 8, 0, 1))
+    val l2 = ListNode(Array(0, 8, 9, 6, 8, 7, 2))
+
+    val result = Problem002.addTwoNumbers(l1, l2)
+    ListNode.toArray(result) should equal(Array(3, 0, 0, 9, 4, 8, 0, 9, 0, 1))
+  }
 }
