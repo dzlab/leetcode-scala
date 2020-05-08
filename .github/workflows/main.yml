@@ -31,3 +31,12 @@ jobs:
       run: |
         sbt coverageReport coverageAggregate
         bash <(curl -s https://codecov.io/bash)
+
+    - name: Run findbugs
+      run: sbt findbugs
+
+    - name: Archive findbugs results
+      uses: actions/upload-artifact@v1
+      with:
+        name: findbugs-report
+        path: target/scala-2.13/findbugs/report.xml
