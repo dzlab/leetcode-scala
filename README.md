@@ -13,3 +13,9 @@ Run a single test
 ```
 sbt "testOnly dzlab.leetcode.problems.Problem001Spec"
 ```
+
+Setup git hooks
+[Scalariform](http://scalariform.org/)
+```
+$ brew install scalariform
+```

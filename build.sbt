@@ -12,3 +12,5 @@ scalariformPreferences := scalariformPreferences.value
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.1" % "test"
 
 findbugsReportType := Some(FindbugsReport.Html)
+
+addCommandAlias("lint", "scalastyle")
