@@ -21,43 +21,43 @@ package dzlab.leetcode.problems
  * }
  */
 object Problem002 {
-  class ListNode( var _x : Int = 0 ) {
-    var next : ListNode = null
-    var x : Int = _x
+  class ListNode(var _x: Int = 0) {
+    var next: ListNode = null
+    var x: Int = _x
   }
 
   object ListNode {
     /**
      * Create a node and intialize it.
      */
-    def apply( x : Int, next : ListNode = null ) : ListNode = {
-      val node = new ListNode( x )
+    def apply(x: Int, next: ListNode = null): ListNode = {
+      val node = new ListNode(x)
       node.next = next
       return node
     }
 
-    def apply( array : Array[ Int ] ) : ListNode = {
-      val node2index = array.map( x ⇒ new ListNode( x ) ).foldLeft( Map[ Int, ListNode ]() ) {
-        ( memory : Map[ Int, ListNode ], current : ListNode ) ⇒
+    def apply(array: Array[Int]): ListNode = {
+      val node2index = array.map(x ⇒ new ListNode(x)).foldLeft(Map[Int, ListNode]()) {
+        (memory: Map[Int, ListNode], current: ListNode) ⇒
           memory.isEmpty match {
             case true ⇒
             case false ⇒ {
-              memory( memory.size - 1 ).next = current
+              memory(memory.size - 1).next = current
             }
           }
-          memory ++ Map( ( memory.size, current ) )
+          memory ++ Map((memory.size, current))
       }
-      node2index( 0 )
+      node2index(0)
     }
 
     /**
      * @return a string representation of the input list
      */
-    def stringify( node : ListNode ) : String = {
-      Option( node ) match {
+    def stringify(node: ListNode): String = {
+      Option(node) match {
         case None ⇒ ""
-        case Some( n ) ⇒ {
-          stringify( n.next ) match {
+        case Some(n) ⇒ {
+          stringify(n.next) match {
             case str if str.isEmpty ⇒ s"${n.x}"
             case str                ⇒ s"${n.x}->${str}"
           }
@@ -66,35 +66,35 @@ object Problem002 {
       }
     }
 
-    def toArray( node : ListNode ) : Array[ Int ] = {
-      Option( node ) match {
+    def toArray(node: ListNode): Array[Int] = {
+      Option(node) match {
         case None ⇒ Array()
-        case Some( n ) ⇒ {
-          Array( n.x ) ++ toArray( n.next )
+        case Some(n) ⇒ {
+          Array(n.x) ++ toArray(n.next)
         }
       }
     }
   }
 
-  def addTwoNumbers( l1 : ListNode, l2 : ListNode ) : ListNode = {
-    case class ExtendedNode( n : ListNode ) {
-      def add( other : ListNode, remain : Int = 0 ) : ListNode = {
-        Option( other ) match {
+  def addTwoNumbers(l1: ListNode, l2: ListNode): ListNode = {
+    case class ExtendedNode(n: ListNode) {
+      def add(other: ListNode, remain: Int = 0): ListNode = {
+        Option(other) match {
           case None ⇒ {
-            if ( remain == 0 ) {
-              if ( n.x == 0 && n.next == null ) null else n
+            if (remain == 0) {
+              if (n.x == 0 && n.next == null) null else n
             }
             else {
-              this.add( new ListNode( 0 ), remain )
+              this.add(new ListNode(0), remain)
             }
           }
-          case Some( m ) ⇒ {
+          case Some(m) ⇒ {
             val sum = n.x + m.x + remain
-            val newNode = new ListNode( sum % 10 )
-            val remain2 : Int = sum / 10
-            val nextNode = Option( n.next ) match {
-              case None       ⇒ ExtendedNode( new ListNode( remain2 ) ).add( m.next )
-              case Some( n2 ) ⇒ ExtendedNode( n2 ).add( m.next, remain2 )
+            val newNode = new ListNode(sum % 10)
+            val remain2: Int = sum / 10
+            val nextNode = Option(n.next) match {
+              case None     ⇒ ExtendedNode(new ListNode(remain2)).add(m.next)
+              case Some(n2) ⇒ ExtendedNode(n2).add(m.next, remain2)
             }
             newNode.next = nextNode
             newNode
@@ -102,14 +102,14 @@ object Problem002 {
         }
       }
     }
-    implicit def node2node( n : ListNode ) = ExtendedNode( n )
+    implicit def node2node(n: ListNode) = ExtendedNode(n)
 
-    if ( l1 == null ) {
+    if (l1 == null) {
       return l2
     }
-    else if ( l2 == null ) {
+    else if (l2 == null) {
       return l1
     }
-    l1.add( l2, 0 )
+    l1.add(l2, 0)
   }
 }

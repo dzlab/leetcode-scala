@@ -14,15 +14,15 @@ package dzlab.leetcode.problems
 
 object Problem001 {
 
-  def twoSum( nums : Array[ Int ], target : Int ) : Array[ Int ] = {
-    ( 0 until nums.length ).foldLeft( Map[ Int, Int ]() ) {
-      ( map : Map[ Int, Int ], right : Int ) ⇒
+  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    (0 until nums.length).foldLeft(Map[Int, Int]()) {
+      (map: Map[Int, Int], right: Int) ⇒
         {
-          val left_key = nums( right )
-          if ( map.contains( left_key ) ) {
-            return Array( map( left_key ), right )
+          val left_key = nums(right)
+          if (map.contains(left_key)) {
+            return Array(map(left_key), right)
           }
-          map ++ Map( ( target - nums( right ), right ) )
+          map ++ Map((target - nums(right), right))
         }
     }
     Array()
