@@ -1,0 +1,29 @@
+#!/bin/bash
+
+PURPLE='\033[0;35m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+BOLD=$(tput bold)
+
+sbt_error_count=0
+
+SCALAFILES=$( \
+  git diff --cached --name-only --diff-filter=AMT -- .  \
+  | egrep '(.*)\.(scala)$'
+)
+
+if [ -n "$SCALAFILES" ]; then
+    echo -e "\n${PURPLE}formatting scala files ..."
+    scalariform -q --preferenceFile=config/scalariform.properties $SCALAFILES
+    echo -e "\n${PURPLE}linting scala files ..."
+    sbt lint
+    sbt_error_count=$((error_count + $?))
+fi
+
+if [ $sbt_error_count -gt 0 ]; then
+  echo -e "\n${RED}Please fix the linting issues in your sbt files before committing"
+  exit 1
+fi
+
+exit 0
